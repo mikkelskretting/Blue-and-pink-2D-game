@@ -2,6 +2,8 @@ import random
 from konstanter import *
 import pygame as pg
 
+surface = pg.display.set_mode(SIZE)
+
 game_over = 0
 main_menu = True
  
@@ -14,7 +16,17 @@ restart_img = pg.image.load('Bilder/restart.png')
 start_img = pg.image.load('Bilder/start.png')
 exit_img = pg.image.load('Bilder/exit.png')
 
-surface = pg.display.set_mode(SIZE)
+
+
+background_img1 = pg.image.load('Bilder/background_img1.png')
+background_img2 = pg.image.load('Bilder/background_img2.png')
+background_img4 = pg.image.load('Bilder/background_img4.png')
+
+def Background_img(image): 
+    size = pg.transform.scale(image,(WIDTH, HEIGHT))
+    surface.blit(size, (0,0))
+
+
 
 images = []
 

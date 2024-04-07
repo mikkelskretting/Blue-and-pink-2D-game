@@ -33,7 +33,7 @@ while run:
         if event.type == pg.QUIT:
             run = False # Spillet skal avsluttes
 
-    surface.fill(BLACK) 
+    Background_img(background_img4)
 
     if main_menu == True:
         if exit_button.draw():
@@ -41,6 +41,7 @@ while run:
         if start_button.draw():
             main_menu = False
     else:
+
         
         world1.draw()
 
