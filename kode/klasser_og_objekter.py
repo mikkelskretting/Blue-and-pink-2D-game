@@ -16,6 +16,13 @@ restart_img = pg.image.load('Bilder/restart.png')
 start_img = pg.image.load('Bilder/start.png')
 exit_img = pg.image.load('Bilder/exit.png')
 
+pg.mixer.music.load('Bilder/music.wav')
+pg.mixer.music.play(-1, 0.0, 5000)
+jump_fx = pg.mixer.Sound('Bilder/jump.wav')
+jump_fx.set_volume(0.5)
+game_over_fx = pg.mixer.Sound('Bilder/game_over.wav')
+game_over_fx.set_volume(0.5)
+
 
 
 background_img1 = pg.image.load('Bilder/background_img1.png')
@@ -232,14 +239,18 @@ class Player():
             # Sjekker kollisjon med enemies
             if pg.sprite.spritecollide(self, enemy_group1, False) and level != 1: 
                 game_over = -1
+                game_over_fx.play()
             if pg.sprite.spritecollide(self, enemy_group2, False) and level != 2: 
+                game_over_fx.play()
                 game_over = -1
                 
 
             # Sjekker kollisjon med lava
             if pg.sprite.spritecollide(self, lava_group1, False) and level != 1: 
+                game_over_fx.play()
                 game_over = -1
             if pg.sprite.spritecollide(self, lava_group2, False) and level != 2: 
+                game_over_fx.play()
                 game_over = -1
                 
                 
@@ -254,6 +265,7 @@ class Player():
         elif game_over == -1: 
             self.image = pg.transform.scale(pg.image.load('Bilder/ghost.png'), (tile_size, tile_size))
             self.rect.y -= 5
+
             
         return game_over
 
@@ -304,6 +316,7 @@ class Player1(Player):
             self.direction = -1  # Set direction to left
 
         if keys[pg.K_w] and self.on_ground == True: 
+            jump_fx.play()
             self.vy = -8
             self.on_ground = False 
 
@@ -342,6 +355,7 @@ class Player2(Player):
             self.direction = -1
 
         if keys[pg.K_UP] and self.on_ground == True: 
+            jump_fx.play()
             self.vy = -8
             self.on_ground = False
     def draw(self):
