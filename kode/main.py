@@ -66,6 +66,9 @@ while run:
         if level_complete(): 
             if level == 1: 
                 world1 = world2
+
+                lava_group1.remove(lava_group1)
+                enemy_group1.remove(enemy_group1)
                 lava_group1 = lava_group2
                 enemy_group1 = enemy_group2
                 level = 2
