@@ -230,9 +230,9 @@ class Player():
                         self.on_ground = True
             
             # Sjekker kollisjon med enemies
-            if pg.sprite.spritecollide(self, enemy_group1, False) and level != 2: 
+            if pg.sprite.spritecollide(self, enemy_group1, False) and level != 1: 
                 game_over = -1
-            if pg.sprite.spritecollide(self, enemy_group2, False) and level != 1: 
+            if pg.sprite.spritecollide(self, enemy_group2, False) and level != 2: 
                 game_over = -1
                 
 
