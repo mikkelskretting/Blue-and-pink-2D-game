@@ -1,8 +1,13 @@
 import random 
 from konstanter import *
 import pygame as pg
+from os import path
+from pygame import mixer
 
 surface = pg.display.set_mode(SIZE)
+
+pg.mixer.pre_init(44100, -16, 2, 512)
+mixer.init()
 
 game_over = 0
 main_menu = True
@@ -16,14 +21,10 @@ restart_img = pg.image.load('Bilder/restart.png')
 start_img = pg.image.load('Bilder/start.png')
 exit_img = pg.image.load('Bilder/exit.png')
 
-pg.mixer.init()
-
 pg.mixer.music.load('Bilder/music.wav')
 pg.mixer.music.play(-1, 0.0, 5000)
-
 jump_fx = pg.mixer.Sound('Bilder/jump.wav')
 jump_fx.set_volume(0.5)
-
 game_over_fx = pg.mixer.Sound('Bilder/game_over.wav')
 game_over_fx.set_volume(0.5)
 
@@ -244,15 +245,15 @@ class Player():
             if pg.sprite.spritecollide(self, enemy_group1, False) and level != 2: 
                 game_over = -1
                 game_over_fx.play()
-            if pg.sprite.spritecollide(self, enemy_group2, False) and level != 2: 
+            if pg.sprite.spritecollide(self, enemy_group2, False): 
                 game_over_fx.play()
                 game_over = -1
 
             # Sjekker kollisjon med lava
-            if pg.sprite.spritecollide(self, lava_group1, False) and level != 1: 
+            if pg.sprite.spritecollide(self, lava_group1, False) and level != 2: 
                 game_over_fx.play()
                 game_over = -1
-            if pg.sprite.spritecollide(self, lava_group2, False) and level != 2: 
+            if pg.sprite.spritecollide(self, lava_group2, False): 
                 game_over_fx.play()
                 game_over = -1
                 
