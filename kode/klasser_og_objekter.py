@@ -1,8 +1,13 @@
 import random 
 from konstanter import *
 import pygame as pg
+from os import path
+from pygame import mixer
 
 surface = pg.display.set_mode(SIZE)
+
+pg.mixer.pre_init(44100, -16, 2, 512)
+mixer.init()
 
 game_over = 0
 main_menu = True

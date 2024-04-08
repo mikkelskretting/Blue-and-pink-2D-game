@@ -5,8 +5,7 @@ from pygame import mixer
 from klasser_og_objekter import *
 from konstanter import *
 
-pg.mixer.pre_init(44100, -16, 2, 512)
-mixer.init()
+
 # initierer pygame
 pg.init()
 
