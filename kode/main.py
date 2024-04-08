@@ -42,20 +42,18 @@ while run:
             main_menu = False
     else:
 
-        
         world1.draw()
-
         if game_over == 0:  
-            enemy_group.update()
-        enemy_group.draw(surface)
+            enemy_group1.update()
+        enemy_group1.draw(surface)
 
-        lava_group.draw(surface)
+        lava_group1.draw(surface)
 
     
         game_over = player1.update(world1, game_over)
         player1.move()
         player1.draw()
-            
+                
         game_over = player2.update(world1, game_over)
         player2.move()
         player2.draw()
@@ -65,14 +63,38 @@ while run:
                 player1.reset(tile_size * 2 + PLAYER_SIZE / 2, HEIGHT - tile_size * 2, 1, 1)
                 player2.reset(tile_size + PLAYER_SIZE / 2, HEIGHT - tile_size * 2, 0, 0)
                 game_over = 0
+        if level_complete(): 
+            if level == 1: 
+                world1 = world2
+                lava_group1 = lava_group2
+                enemy_group1 = enemy_group2
+                level = 2
 
+            elif level == 2: 
+                world1.draw()
+                player1.reset(tile_size * 2 + PLAYER_SIZE / 2, HEIGHT - tile_size * 2, 1, 1)
+                player2.reset(tile_size + PLAYER_SIZE / 2, HEIGHT - tile_size * 2, 0, 0)
 
+            if game_over == 0:  
+                enemy_group1.update()
+            enemy_group1.draw(surface)
 
+            lava_group1.draw(surface)
 
-    if player1.rect.x == tile_size * 15 and player1.rect.y == tile_size * 1.5: 
-        print("Player 1 won!")
     
-    
+            game_over = player1.update(world1, game_over)
+            player1.move()
+            player1.draw()
+                
+            game_over = player2.update(world1, game_over)
+            player2.move()
+            player2.draw()
+
+            if game_over == - 1:
+                if restart_button.draw():
+                    player1.reset(tile_size * 2 + PLAYER_SIZE / 2, HEIGHT - tile_size * 2, 1, 1)
+                    player2.reset(tile_size + PLAYER_SIZE / 2, HEIGHT - tile_size * 2, 0, 0)
+                    game_over = 0
 
     # "Flipper" displayet for å vise hva vi har tegnet
     pg.display.flip()

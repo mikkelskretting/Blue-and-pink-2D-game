@@ -107,10 +107,16 @@ class World():
                     self.tile_list.append(tile)
                 if tile == 11: 
                     enemy = Enemy(column_count * tile_size, row_count * tile_size + 7)
-                    enemy_group.add(enemy)
+                    enemy_group1.add(enemy)
                 if tile == 12: 
+                    enemy = Enemy(column_count * tile_size, row_count * tile_size + 7)
+                    enemy_group2.add(enemy)
+                if tile == 13: 
                     lava = Lava(column_count * tile_size, row_count * tile_size + tile_size // 2)
-                    lava_group.add(lava)
+                    lava_group1.add(lava)
+                if tile == 14: 
+                    lava = Lava(column_count * tile_size, row_count * tile_size + tile_size // 2)
+                    lava_group2.add(lava)
                 column_count += 1
             row_count += 1 
 
@@ -144,7 +150,19 @@ class Button():
         surface.blit(self.image, self.rect)
 
         return action
+    
+class Flag(): 
+    def __init__(self, x, y): 
+        self.x = x
+        self.y = y
+        self.rect = pg.Rect(x, y, tile_size, tile_size * 2)
 
+
+def level_complete():
+    global game_over 
+    if player1.rect.colliderect(flag1.rect) and player2.rect.colliderect(flag1.rect):
+        return True
+    return False
 
 
 class Player(): 
@@ -212,14 +230,18 @@ class Player():
                         self.on_ground = True
             
             # Sjekker kollisjon med enemies
-            if pg.sprite.spritecollide(self, enemy_group, False): 
+            if pg.sprite.spritecollide(self, enemy_group1, False) and level != 2: 
                 game_over = -1
-                print("hore")
+            if pg.sprite.spritecollide(self, enemy_group2, False) and level != 1: 
+                game_over = -1
+                
 
             # Sjekker kollisjon med lava
-            if pg.sprite.spritecollide(self, lava_group, False): 
+            if pg.sprite.spritecollide(self, lava_group1, False) and level != 1: 
                 game_over = -1
-                print("Pikk")
+            if pg.sprite.spritecollide(self, lava_group2, False) and level != 2: 
+                game_over = -1
+                
                 
 
             self.rect.x += dx
@@ -261,6 +283,9 @@ class Player1(Player):
         super().__init__(x, y, type_picture, dead_picture)
         self.direction = 1  # 1 for right, -1 for left
 
+        player1_x = self.rect.x
+        player1_y = self.rect.y
+
     def move(self):
         # Nullstiller farten
         self.vx = 0
@@ -295,6 +320,9 @@ class Player2(Player):
         super().__init__(x, y, type_picture, dead_picture)
         self.direction = 1
 
+        player2_x = self.rect.x
+        player2_y = self.rect.y
+
     def move(self): 
         super().__init__
         # Nullstiller farten
@@ -322,25 +350,6 @@ class Player2(Player):
             surface.blit(pg.transform.flip(self.image, True, False), self.rect)
         else:
             surface.blit(self.image, self.rect)
- 
-
-""" class Obstacle:
-    def __init__(self, x, y, width, height, color):
-        self.rect = pg.Rect(x, y, width, height)
-        self.color = color
-
-    def draw(self, surface):
-        pg.draw.rect(surface, self.color, self.rect) """
-
-
-""" class Platform:
-    def __init__(self, x, y, width, height, color):
-        self.rect = pg.Rect(x, y, width, height)
-        self.color = color
-
-    def draw(self, surface):
-        pg.draw.rect(surface, self.color, self.rect) """
-
 
 class Enemy(pg.sprite.Sprite): 
     def __init__(self, x, y): 
@@ -373,14 +382,18 @@ class Lava(pg.sprite.Sprite):
 player1 = Player1(tile_size * 2 + PLAYER_SIZE / 2, HEIGHT - tile_size * 2, 1, 1)
 player2 = Player2(tile_size + PLAYER_SIZE / 2, HEIGHT - tile_size * 2, 0, 0)
 
-enemy_group = pg.sprite.Group()
+flag1 = Flag(tile_size * 15, tile_size * 2)
 
-lava_group = pg.sprite.Group()
+enemy_group1 = pg.sprite.Group()
+enemy_group2 = pg.sprite.Group()
+
+lava_group1 = pg.sprite.Group()
+lava_group2 = pg.sprite.Group()
 
 
 
-world1 = World(world_data)
-""" world2 = World(level2_data) """
+world1 = World(world_data1)
+world2 = World(world_data2)
 
 
 restart_button = Button(WIDTH // 2 - 50, HEIGHT // 2, restart_img)
